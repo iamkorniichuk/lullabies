@@ -3,6 +3,9 @@ from django.urls import reverse
 
 
 class Lullaby(models.Model):
+    class Meta:
+        verbose_name_plural = "lullabies"
+
     name = models.CharField(max_length=64)
     lyrics = models.TextField()
     url = models.URLField()
