@@ -1,7 +1,3 @@
-# Configs
-.ebextensions/
-*.config
-
 # Django
 *.log
 *.pot
@@ -137,3 +133,8 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
