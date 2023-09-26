@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "lullabies_app",
     "partners",
+    "contacts",
 ]
 
 MIDDLEWARE = [
