@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "lullabies_app",
     "partners",
     "contacts",
+    "artists",
 ]
 
 MIDDLEWARE = [
