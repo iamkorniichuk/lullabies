@@ -15,5 +15,5 @@ router.register("contacts", ContactViewSet, basename="contact")
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),
-    path("api/lullabies/", include("lullabies_app.urls")),
+    path("api/statistic/", include("statistic.urls")),
 ]

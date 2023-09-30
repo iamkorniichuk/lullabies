@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "partners",
     "contacts",
     "artists",
+    "statistic",
 ]
 
 MIDDLEWARE = [

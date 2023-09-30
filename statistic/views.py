@@ -1,10 +1,10 @@
 from django.db.models import Count
 from rest_framework.views import APIView, Response
 
-from .models import Lullaby
+from lullabies_app.models import Lullaby
 
 
-class LullabyStatisticView(APIView):
+class StatisticView(APIView):
     def get(self, request, *args, **kwargs):
         data = Lullaby.objects.aggregate(
             lullabies=Count("pk"),
