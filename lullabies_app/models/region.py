@@ -1,10 +1,7 @@
-from django.db import models
-from django.urls import reverse
-
-from artists.models import Artist
+from django.db.models import TextChoices
 
 
-class RegionChoices(models.TextChoices):
+class RegionChoices(TextChoices):
     CRIMEA = "AK", "Autonomous Republic of Crimea"
     VINNYTSIA = "AB", "Vinnytsia Oblast"
     VOLYN = "AC", "Volyn Oblast"
@@ -30,24 +27,3 @@ class RegionChoices(models.TextChoices):
     CHERKASY = "CA", "Cherkasy Oblast"
     CHERNIVTSI = "CE", "Chernivtsi Oblast"
     CHERNIHIV = "CB", "Chernihiv Oblast"
-
-
-class Lullaby(models.Model):
-    class Meta:
-        verbose_name_plural = "lullabies"
-
-    name = models.CharField(max_length=64)
-    region = models.CharField(max_length=64, choices=RegionChoices.choices)
-    lyrics = models.TextField()
-    url = models.URLField()
-    artists = models.ManyToManyField(
-        Artist,
-        related_name="lullabies",
-        blank=True,
-    )
-
-    def get_absolute_url(self):
-        return reverse("lullaby-detail", kwargs={"pk": self.pk})
-
-    def __str__(self):
-        return f"Lullaby({self.name})"
