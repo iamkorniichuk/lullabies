@@ -6,6 +6,8 @@ from partners.viewsets import PartnerViewSet
 from contacts.viewsets import ContactViewSet
 from lullabies_app.viewsets import LullabyViewSet
 
+from .schema import schema_view
+
 
 router = DefaultRouter()
 router.register("lullabies", LullabyViewSet, basename="lullaby")
@@ -16,4 +18,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),
     path("api/statistic/", include("statistic.urls")),
+    path(
+        "api/schema/",
+        schema_view.with_ui(),
+        name="schema",
+    ),
 ]

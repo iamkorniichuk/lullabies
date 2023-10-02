@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "storages",
     "corsheaders",
+    "drf_yasg",
     "lullabies_app",
     "partners",
     "contacts",
