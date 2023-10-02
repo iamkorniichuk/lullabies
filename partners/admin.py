@@ -16,6 +16,6 @@ class PartnerAdmin(admin.ModelAdmin):
 
     @admin.display(description="logo")
     def img_logo(self, obj):
-        return format_html('<img src="{}">', obj.logo)
+        return format_html('<img src="{}" alt="logo" height="48">', obj.logo)
 
     img_logo.allow_tags = True
