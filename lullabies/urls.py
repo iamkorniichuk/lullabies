@@ -8,7 +8,7 @@ from lullabies_app.viewsets import LullabyViewSet
 
 
 router = DefaultRouter()
-router.register("lullabies", LullabyViewSet, "lullaby")
+router.register("lullabies", LullabyViewSet, basename="lullaby")
 router.register("partners", PartnerViewSet, basename="partner")
 router.register("contacts", ContactViewSet, basename="contact")
 
