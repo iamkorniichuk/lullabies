@@ -14,9 +14,10 @@ class LullabyAdmin(admin.ModelAdmin):
 class MediaSource(admin.ModelAdmin):
     list_display = ["pk", "url_audio", "img_cover", "url_video", "format"]
 
+    # TODO: Refactor
     @admin.display(description="cover")
     def img_cover(self, obj):
-        return format_html('<img src="{}" alt="cover">', obj.cover)
+        return format_html('<img src="{}" alt="cover" height="48">', obj.cover)
 
     img_cover.allow_tags = True
 
