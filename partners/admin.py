@@ -1,21 +1,13 @@
 from django.contrib import admin
-from django.utils.html import format_html
+
+from commons.admin import img_tag_factory, a_tag_factory
 
 from .models import Partner
 
 
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):
-    list_display = ["pk", "url_name", "img_logo"]
+    list_display = ["pk", "name", "url_website", "img_logo"]
 
-    @admin.display(description="website")
-    def url_name(self, obj):
-        return format_html('<a href="{}" target="_blank">{}</a>', obj.website, obj.name)
-
-    url_name.allow_tags = True
-
-    @admin.display(description="logo")
-    def img_logo(self, obj):
-        return format_html('<img src="{}" alt="logo" height="48">', obj.logo)
-
-    img_logo.allow_tags = True
+    url_website = a_tag_factory("website", "website")
+    img_logo = img_tag_factory("logo", "logo")
