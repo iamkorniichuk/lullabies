@@ -8,3 +8,4 @@ class StaticFileStorage(S3Boto3Storage):
 
 class MediaFileStorage(S3Boto3Storage):
     location = settings.MEDIAFILES_FOLDER
+    file_overwrite = False

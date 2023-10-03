@@ -23,7 +23,9 @@ class MediaSource(admin.ModelAdmin):
 
     @admin.display(description="audio")
     def url_audio(self, obj):
-        return format_html('<a href="{}" target="_blank">{}</a>', obj.audio, obj.audio)
+        return format_html(
+            '<a href="{}" target="_blank">{}</a>', obj.audio.url, obj.audio.name
+        )
 
     url_audio.allow_tags = True
 
