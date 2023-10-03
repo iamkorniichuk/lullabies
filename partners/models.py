@@ -4,7 +4,7 @@ from django.urls import reverse
 
 class Partner(models.Model):
     name = models.CharField(max_length=64, unique=True)
-    logo = models.URLField()
+    logo = models.ImageField(upload_to="logo")
     website = models.URLField(unique=True)
 
     def get_absolute_url(self):
