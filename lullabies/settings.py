@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "storages",
     "corsheaders",
     "drf_yasg",
+    "commons",
     "lullabies_app",
     "partners",
     "contacts",
@@ -139,10 +140,10 @@ AWS_S3_CUSTOM_DOMAIN = (
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
 
-DEFAULT_FILE_STORAGE = "custom_storages.MediaFileStorage"
+DEFAULT_FILE_STORAGE = "commons.storages.MediaFileStorage"
 MEDIAFILES_FOLDER = "media"
 
-STATICFILES_STORAGE = "custom_storages.StaticFileStorage"
+STATICFILES_STORAGE = "commons.storages.StaticFileStorage"
 STATICFILES_FOLDER = "static"
 
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"

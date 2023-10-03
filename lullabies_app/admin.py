@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.utils.html import format_html
 
+from commons.admin import img_tag_factory, a_tag_factory, a_file_tag_factory
 
 from .models import Lullaby, MediaSource
 
@@ -14,30 +14,9 @@ class LullabyAdmin(admin.ModelAdmin):
 class MediaSource(admin.ModelAdmin):
     list_display = ["pk", "url_audio", "img_cover", "url_video", "format"]
 
-    # TODO: Refactor
-    @admin.display(description="cover")
-    def img_cover(self, obj):
-        if obj.cover:
-            return format_html(
-                '<img src="{}" alt="{}" height="48">', obj.cover.url, obj.cover.name
-            )
-
-    img_cover.allow_tags = True
-
-    @admin.display(description="audio")
-    def url_audio(self, obj):
-        if obj.audio:
-            return format_html(
-                '<a href="{}" target="_blank">{}</a>', obj.audio.url, obj.audio.name
-            )
-
-    url_audio.allow_tags = True
-
-    @admin.display(description="video")
-    def url_video(self, obj):
-        return format_html('<a href="{}" target="_blank">{}</a>', obj.video, obj.video)
-
-    url_video.allow_tags = True
+    img_cover = img_tag_factory("cover", "cover")
+    url_audio = a_file_tag_factory("audio", "audio")
+    url_video = a_tag_factory("audio", "video")
 
     @admin.display(description="format")
     def format(self, obj):
