@@ -1,5 +1,6 @@
 # Static files
 static/
+media/
 
 # Django
 *.log

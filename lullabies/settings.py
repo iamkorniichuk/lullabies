@@ -15,7 +15,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("IS_DEVELOPMENT", default=True)
 
 ALLOWED_HOSTS = [
-    env("APP_HOST"),
+    env("APP_HOST", default="localhost"),
 ]
 
 
@@ -132,15 +132,20 @@ REST_FRAMEWORK = {
 
 AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
-AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+AWS_S3_CUSTOM_DOMAIN = (
+    f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+)
 
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
 
+DEFAULT_FILE_STORAGE = "custom_storages.MediaFileStorage"
+MEDIAFILES_FOLDER = "media"
+
 STATICFILES_STORAGE = "custom_storages.StaticFileStorage"
 STATICFILES_FOLDER = "static"
 
-MEDIAFILES_STORAGE = "custom_storages.MediaFileStorage"
-MEDIAFILES_FOLDER = "media"
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+
 
 CORS_ALLOW_ALL_ORIGINS = True

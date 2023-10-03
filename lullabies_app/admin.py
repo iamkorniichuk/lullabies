@@ -17,13 +17,19 @@ class MediaSource(admin.ModelAdmin):
     # TODO: Refactor
     @admin.display(description="cover")
     def img_cover(self, obj):
-        return format_html('<img src="{}" alt="cover" height="48">', obj.cover)
+        if obj.cover:
+            return format_html(
+                '<img src="{}" alt="{}" height="48">', obj.cover.url, obj.cover.name
+            )
 
     img_cover.allow_tags = True
 
     @admin.display(description="audio")
     def url_audio(self, obj):
-        return format_html('<a href="{}" target="_blank">{}</a>', obj.audio, obj.audio)
+        if obj.audio:
+            return format_html(
+                '<a href="{}" target="_blank">{}</a>', obj.audio.url, obj.audio.name
+            )
 
     url_audio.allow_tags = True
 
