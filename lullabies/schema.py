@@ -8,7 +8,7 @@ from drf_yasg import openapi
 schema_view = get_schema_view(
     openapi.Info(
         title=_("Lullabies"),
-        default_version="v0.0.8",
+        default_version="v0.0.9",
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
