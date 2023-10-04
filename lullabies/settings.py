@@ -32,9 +32,11 @@ INSTALLED_APPS = [
     "storages",
     "corsheaders",
     "drf_yasg",
+    "django_ses",
     "commons",
     "lullabies_app",
     "partners",
+    "emails",
     "contacts",
     "artists",
     "statistic",
@@ -148,5 +150,8 @@ STATICFILES_FOLDER = "static"
 
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 
+AWS_SES_REGION_NAME = env("AWS_SES_REGION_NAME")
+
+EMAIL_BACKEND = "django_ses.SESBackend"
 
 CORS_ALLOW_ALL_ORIGINS = True
