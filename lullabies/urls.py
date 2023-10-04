@@ -18,6 +18,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),
     path("api/statistic/", include("statistic.urls")),
+    path("api/email/", include("emails.urls")),
     path(
         "api/schema/",
         schema_view.with_ui(),
