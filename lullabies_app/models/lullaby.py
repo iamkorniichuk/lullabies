@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from artists.models import Artist
 
-from .source import MediaSource
+from media.models import MediaSource
 from .region import RegionChoices
 
 

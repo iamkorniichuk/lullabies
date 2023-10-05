@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "django_ses",
     "commons",
     "lullabies_app",
+    "media",
     "partners",
     "emails",
     "contacts",
