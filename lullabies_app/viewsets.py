@@ -3,8 +3,11 @@ from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+from media.models import MediaSource
+
 from .serializers import LullabySerializer
-from .models import Lullaby, MediaSource
+from .models import Lullaby
+
 
 source_format = openapi.Parameter(
     "source-format",

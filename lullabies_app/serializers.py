@@ -1,15 +1,9 @@
 from rest_framework import serializers
-from drf_annotations.mixins import SerializeAnnotationsMixin
 
 from artists.serializers import ArtistSerializer
+from media.models import MediaSource
 
-from .models import Lullaby, MediaSource
-
-
-class MediaSource(SerializeAnnotationsMixin, serializers.ModelSerializer):
-    class Meta:
-        model = MediaSource
-        fields = "__all__"
+from .models import Lullaby
 
 
 class LullabySerializer(serializers.ModelSerializer):
