@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "drf_yasg",
     "django_ses",
+    "django_cleanup.apps.CleanupConfig",
     "commons",
     "lullabies_app",
     "media",
