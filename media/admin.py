@@ -7,7 +7,15 @@ from .models import MediaSource
 
 @admin.register(MediaSource)
 class MediaSource(admin.ModelAdmin):
-    list_display = ["pk", "url_audio", "img_cover", "url_video", "format"]
+    list_display = ["pk", "url_audio", "img_cover", "url_video", "format", "duration"]
+    fieldsets = [
+        [
+            None,
+            {
+                "fields": ["audio", "cover", "video"],
+            },
+        ]
+    ]
 
     img_cover = img_tag_factory("cover", "cover")
     url_audio = a_file_tag_factory("audio", "audio")

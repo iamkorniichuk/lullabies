@@ -51,6 +51,7 @@ class MediaSource(models.Model):
     video = models.URLField(blank=True, null=True)
     audio = models.FileField(blank=True, default="", upload_to="audio/")
     cover = models.ImageField(blank=True, default="", upload_to="cover/")
+    duration = models.DurationField(blank=True, null=True)
 
     objects = MediaSourceManager()
 
