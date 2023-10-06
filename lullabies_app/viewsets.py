@@ -21,8 +21,20 @@ source_format = openapi.Parameter(
 @method_decorator(
     name="list", decorator=swagger_auto_schema(manual_parameters=[source_format])
 )
+@method_decorator(
+    name="retrieve",
+    decorator=swagger_auto_schema(
+        operation_description="Return lullaby with included source. Increment its `views` count."
+    ),
+)
 class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LullabySerializer
+
+    def get_object(self):
+        instance = super().get_object()
+        instance.views += 1
+        instance.save()
+        return instance
 
     def get_queryset(self):
         format = self.request.GET.get("source-format")
