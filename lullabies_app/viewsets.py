@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from rest_framework import filters
 
 from media.models import MediaSource
 
@@ -24,10 +25,13 @@ source_format = openapi.Parameter(
 @method_decorator(
     name="retrieve",
     decorator=swagger_auto_schema(
-        operation_description="Return lullaby with included source. Increment its `views` count."
+        operation_description="Return lullaby with included source. Increment its `views` count.",
     ),
 )
 class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = "__all__"
+
     def get_serializer_class(self):
         if self.action == "retrieve":
             return DetailLullabySerializer
