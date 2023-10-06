@@ -5,7 +5,7 @@ from drf_yasg import openapi
 
 from media.models import MediaSource
 
-from .serializers import LullabySerializer
+from .serializers import ListLullabySerializer, DetailLullabySerializer
 from .models import Lullaby
 
 
@@ -28,7 +28,10 @@ source_format = openapi.Parameter(
     ),
 )
 class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = LullabySerializer
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return DetailLullabySerializer
+        return ListLullabySerializer
 
     def get_object(self):
         instance = super().get_object()
