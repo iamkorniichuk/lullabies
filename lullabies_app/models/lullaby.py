@@ -24,6 +24,10 @@ class Lullaby(models.Model):
         models.RESTRICT,
         related_name="lullaby",
     )
+    views = models.PositiveIntegerField(
+        default=0,
+        editable=False,
+    )
 
     def get_absolute_url(self):
         return reverse("lullaby-detail", kwargs={"pk": self.pk})
