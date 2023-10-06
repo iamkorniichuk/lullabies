@@ -29,9 +29,9 @@ class EmailSerializer(serializers.Serializer):
     email = serializers.EmailField(
         min_length=6,
         max_length=320,
-        validators=[RegexValidator(r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$")],
+        validators=[RegexValidator(r"^[a-z0-9._-]+@[a-z0-9.-]+.[a-z]{2,}$")],
     )
-    theme = serializers.CharField(min_length=6, max_length=320)
+    theme = serializers.CharField(min_length=6, max_length=100)
     message = serializers.CharField(max_length=600)
 
     def send(self):
