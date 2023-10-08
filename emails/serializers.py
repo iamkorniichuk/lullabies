@@ -24,15 +24,22 @@ class EmailSerializer(serializers.Serializer):
     name = serializers.CharField(
         min_length=2,
         max_length=30,
-        validators=[RegexValidator(r"^[A-Za-z'ʼ-\u04FF\u0400-\u04FF\s-]+$")],
+        validators=[RegexValidator(r"^[^\s][A-Za-z'ʼ-\u04FF\u0400-\u04FF\s-]+$")],
     )
     email = serializers.EmailField(
         min_length=6,
         max_length=320,
         validators=[RegexValidator(r"^[a-z0-9._-]+@[a-z0-9.-]+.[a-z]{2,}$")],
     )
-    theme = serializers.CharField(min_length=6, max_length=100)
-    message = serializers.CharField(max_length=600)
+    theme = serializers.CharField(
+        min_length=6,
+        max_length=100,
+        validators=[RegexValidator(r"^\S.$")],
+    )
+    message = serializers.CharField(
+        max_length=600,
+        validators=[RegexValidator(r"^\S.$")],
+    )
 
     def send(self):
         data = self.validated_data
