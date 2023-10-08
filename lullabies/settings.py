@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "django_ses",
     "django_cleanup.apps.CleanupConfig",
+    "django_filters",
     "commons",
     "lullabies_app",
     "media",
@@ -132,6 +133,9 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
+    ],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
     ],
 }
 

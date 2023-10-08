@@ -13,7 +13,7 @@ class Lullaby(models.Model):
 
     name = models.CharField(max_length=64)
     region = models.CharField(max_length=64, choices=RegionChoices.choices)
-    lyrics = models.TextField()
+    lyrics = models.TextField(blank=True, default="")
     artists = models.ManyToManyField(
         Artist,
         related_name="lullabies",
