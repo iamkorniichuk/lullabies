@@ -2,7 +2,8 @@ from rest_framework import viewsets
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from rest_framework import filters
+from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 from media.models import MediaSource
 
@@ -29,8 +30,8 @@ source_format = openapi.Parameter(
     ),
 )
 class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = "__all__"
+    filter_backends = [OrderingFilter, DjangoFilterBackend]
+    queryset = Lullaby.objects.all()
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -44,10 +45,14 @@ class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
         return instance
 
     def get_queryset(self):
-        format = self.request.GET.get("source-format")
-        if format:
-            sources = MediaSource.objects.filter(format=format).values_list(
-                "pk", flat=True
-            )
-            return Lullaby.objects.filter(source__in=sources).all()
-        return Lullaby.objects.all()
+        queryset = super().get_queryset()
+        source_format = self.request.query_params.get("source-format")
+        if source_format:
+            return self.filter_source_format(queryset, source_format)
+        return queryset
+
+    def filter_source_format(self, queryset, value):
+        if not value:
+            return queryset
+        sources = MediaSource.objects.filter(format=value).values_list("pk", flat=True)
+        return Lullaby.objects.filter(source__in=sources).all()
