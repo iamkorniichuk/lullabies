@@ -9,6 +9,7 @@ from media.models import MediaSource
 
 from .serializers import ListLullabySerializer, DetailLullabySerializer
 from .models import Lullaby
+from .filtersets import LullabyFilterSet
 
 
 source_format = openapi.Parameter(
@@ -32,6 +33,7 @@ source_format = openapi.Parameter(
 class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [OrderingFilter, DjangoFilterBackend]
     queryset = Lullaby.objects.all()
+    filterset_class = LullabyFilterSet
 
     def get_serializer_class(self):
         if self.action == "retrieve":
