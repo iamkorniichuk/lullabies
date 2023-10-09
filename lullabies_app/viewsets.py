@@ -1,4 +1,6 @@
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -7,7 +9,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from media.models import MediaSource
 
-from .serializers import ListLullabySerializer, DetailLullabySerializer
+from .serializers import LullabySerializer
 from .models import Lullaby
 from .filtersets import LullabyFilterSet
 
@@ -24,27 +26,18 @@ source_format = openapi.Parameter(
 @method_decorator(
     name="list", decorator=swagger_auto_schema(manual_parameters=[source_format])
 )
-@method_decorator(
-    name="retrieve",
-    decorator=swagger_auto_schema(
-        operation_description="Return lullaby with included source. Increment its `views` count.",
-    ),
-)
 class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [OrderingFilter, DjangoFilterBackend]
     queryset = Lullaby.objects.all()
     filterset_class = LullabyFilterSet
+    serializer_class = LullabySerializer
 
-    def get_serializer_class(self):
-        if self.action == "retrieve":
-            return DetailLullabySerializer
-        return ListLullabySerializer
-
-    def get_object(self):
+    @action(detail=True, methods=["GET"])
+    def increment_views(self, request, pk=None):
         instance = super().get_object()
         instance.views += 1
         instance.save()
-        return instance
+        return Response({"views": instance.views})
 
     def get_queryset(self):
         queryset = super().get_queryset()
