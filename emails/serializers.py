@@ -34,11 +34,11 @@ class EmailSerializer(serializers.Serializer):
     theme = serializers.CharField(
         min_length=6,
         max_length=100,
-        validators=[RegexValidator(r"^\S.$")],
+        validators=[RegexValidator(r"^\S.+$")],
     )
     message = serializers.CharField(
         max_length=600,
-        validators=[RegexValidator(r"^\S.$")],
+        validators=[RegexValidator(r"^\S.+$")],
     )
 
     def send(self):
