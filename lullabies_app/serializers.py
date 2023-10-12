@@ -9,13 +9,21 @@ from .models import Lullaby, Region
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
-        fields = "__all__"
+        fields = ["pk", "name"]
 
 
 class LullabySerializer(serializers.ModelSerializer):
     class Meta:
         model = Lullaby
-        fields = "__all__"
+        fields = [
+            "pk",
+            "name",
+            "region",
+            "lyrics",
+            "artists",
+            "source",
+            "views",
+        ]
 
     region = RegionSerializer()
     artists = ArtistSerializer(many=True)
