@@ -7,6 +7,7 @@ from drf_yasg import openapi
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
+from commons.schema import languages_param
 from media.models import MediaSource
 
 from .serializers import LullabySerializer
@@ -24,7 +25,12 @@ source_format = openapi.Parameter(
 
 
 @method_decorator(
-    name="list", decorator=swagger_auto_schema(manual_parameters=[source_format])
+    name="list",
+    decorator=swagger_auto_schema(manual_parameters=[source_format, languages_param]),
+)
+@method_decorator(
+    name="retrieve",
+    decorator=swagger_auto_schema(manual_parameters=[languages_param]),
 )
 class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [OrderingFilter, DjangoFilterBackend]
