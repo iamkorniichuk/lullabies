@@ -22,6 +22,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    "modeltranslation",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "lullabies.urls"
@@ -121,6 +123,12 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
+
+gettext = lambda s: s
+LANGUAGES = [
+    ("en", gettext("English")),
+    ("uk", gettext("Ukraine")),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

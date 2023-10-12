@@ -4,7 +4,7 @@ from django.urls import reverse
 from artists.models import Artist
 
 from media.models import MediaSource
-from .region import RegionChoices
+from .region import Region
 
 
 class Lullaby(models.Model):
@@ -12,7 +12,11 @@ class Lullaby(models.Model):
         verbose_name_plural = "lullabies"
 
     name = models.CharField(max_length=64)
-    region = models.CharField(max_length=64, choices=RegionChoices.choices)
+    region = models.ForeignKey(
+        Region,
+        models.RESTRICT,
+        related_name="lullabies",
+    )
     lyrics = models.TextField(blank=True, default="")
     artists = models.ManyToManyField(
         Artist,
