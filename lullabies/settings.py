@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "contacts",
     "artists",
     "statistic",
+    "documents",
 ]
 
 MIDDLEWARE = [
