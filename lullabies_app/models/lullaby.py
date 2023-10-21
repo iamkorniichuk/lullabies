@@ -10,19 +10,30 @@ from .region import Region
 class Lullaby(models.Model):
     class Meta:
         verbose_name_plural = "lullabies"
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(region__isnull=True) ^ models.Q(artist__isnull=True),
+                name="only_region_or_artist_is_set",
+                violation_error_message="You need to specify only region or artist.",
+            ),
+        ]
 
     name = models.CharField(max_length=64)
     region = models.ForeignKey(
         Region,
-        models.RESTRICT,
+        models.SET_NULL,
         related_name="lullabies",
-    )
-    lyrics = models.TextField(blank=True, default="")
-    artists = models.ManyToManyField(
-        Artist,
-        related_name="lullabies",
+        null=True,
         blank=True,
     )
+    artist = models.ForeignKey(
+        Artist,
+        models.SET_NULL,
+        related_name="lullabies",
+        null=True,
+        blank=True,
+    )
+    lyrics = models.TextField(blank=True, default="")
     source = models.OneToOneField(
         MediaSource,
         models.RESTRICT,
