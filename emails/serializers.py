@@ -22,13 +22,13 @@ class ConfiguredEmailMessage(EmailMessage):
 
 class EmailSerializer(serializers.Serializer):
     name = serializers.CharField(
-        min_length=2,
+        min_length=1,
         max_length=30,
-        validators=[RegexValidator(r"^[^\s][A-Za-z'ʼ-\u04FF\u0400-\u04FF\s-]+$")],
+        validators=[RegexValidator(r"^[A-Za-z'ʼ-\u04FF\u0400-\u04FF\^s-]+$")],
     )
     email = serializers.EmailField(
         min_length=6,
-        max_length=320,
+        max_length=100,
         validators=[RegexValidator(r"^[a-z0-9._-]+@[a-z0-9.-]+.[a-z]{2,}$")],
     )
     theme = serializers.CharField(
@@ -37,6 +37,7 @@ class EmailSerializer(serializers.Serializer):
         validators=[RegexValidator(r"^\S.+$")],
     )
     message = serializers.CharField(
+        min_length=1,
         max_length=600,
         validators=[RegexValidator(r"^\S.+$")],
     )
