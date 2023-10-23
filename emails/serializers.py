@@ -1,14 +1,13 @@
 from django.core.validators import RegexValidator
 from django.core.mail import EmailMessage
+from django.conf import settings
 from rest_framework import serializers
-
-from contacts.models import Contact
 
 
 class ConfiguredEmailMessage(EmailMessage):
     def __init__(self, subject, body, reply_to, *args, **kwargs):
-        from_email = Contact.objects.get(name="Sender E-mail").value
-        to = [Contact.objects.get(name="Recipient E-mail").value]
+        from_email = settings.EMAIL_SENDER
+        to = [settings.EMAIL_RECIPIENT]
         super().__init__(
             subject=subject,
             body=body,
@@ -34,12 +33,12 @@ class EmailSerializer(serializers.Serializer):
     theme = serializers.CharField(
         min_length=6,
         max_length=100,
-        validators=[RegexValidator(r"^\S.+$")],
+        validators=[RegexValidator(r"^\S[^~`$@#{}\[\]\|/&]*\S$")],
     )
     message = serializers.CharField(
         min_length=1,
         max_length=600,
-        validators=[RegexValidator(r"^\S.+$")],
+        validators=[RegexValidator(r"^\S[^~`$@#{}\[\]\|/&]*\S$")],
     )
 
     def send(self):

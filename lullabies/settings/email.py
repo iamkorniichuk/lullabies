@@ -4,3 +4,6 @@ from .env import env
 AWS_SES_REGION_NAME = env("AWS_SES_REGION_NAME")
 
 EMAIL_BACKEND = "django_ses.SESBackend"
+
+EMAIL_SENDER = env("EMAIL_SENDER")
+EMAIL_RECIPIENT = env("EMAIL_RECIPIENT")
