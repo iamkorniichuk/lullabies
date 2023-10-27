@@ -20,6 +20,8 @@ class ConfiguredEmailMessage(EmailMessage):
 
 
 class EmailSerializer(serializers.Serializer):
+    plain_text_regex = r"^\S[^~`$@#№{}\[\]\|/&]*\S$"
+
     name = serializers.CharField(
         min_length=1,
         max_length=30,
@@ -33,12 +35,12 @@ class EmailSerializer(serializers.Serializer):
     theme = serializers.CharField(
         min_length=6,
         max_length=100,
-        validators=[RegexValidator(r"^\S[^~`$@#{}\[\]\|/&]*\S$")],
+        validators=[RegexValidator(plain_text_regex)],
     )
     message = serializers.CharField(
         min_length=1,
         max_length=600,
-        validators=[RegexValidator(r"^\S[^~`$@#{}\[\]\|/&]*\S$")],
+        validators=[RegexValidator(plain_text_regex)],
     )
 
     def send(self):
