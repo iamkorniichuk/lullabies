@@ -20,11 +20,11 @@ class LullabySerializer(serializers.ModelSerializer):
             "name",
             "region",
             "lyrics",
-            "artists",
+            "artist",
             "source",
             "views",
         ]
 
     region = RegionSerializer()
-    artists = ArtistSerializer(many=True)
+    artist = ArtistSerializer()
     source = MediaSourceSerializer()
