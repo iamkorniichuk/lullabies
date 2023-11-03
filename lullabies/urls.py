@@ -15,7 +15,7 @@ router.register("partners", PartnerViewSet, basename="partner")
 router.register("contacts", ContactViewSet, basename="contact")
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("api/admin/", admin.site.urls),
     path("api/", include(router.urls)),
     path("api/statistic/", include("statistic.urls")),
     path("api/email/", include("emails.urls")),
