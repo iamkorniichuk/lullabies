@@ -15,12 +15,12 @@ router.register("partners", PartnerViewSet, basename="partner")
 router.register("contacts", ContactViewSet, basename="contact")
 
 urlpatterns = [
-    path("api/admin/", admin.site.urls),
-    path("api/", include(router.urls)),
-    path("api/statistic/", include("statistic.urls")),
-    path("api/email/", include("emails.urls")),
+    path("", include(router.urls)),
+    path("admin/", admin.site.urls),
+    path("statistic/", include("statistic.urls")),
+    path("email/", include("emails.urls")),
     path(
-        "api/schema/",
+        "schema/",
         schema_view.with_ui(),
         name="schema",
     ),
