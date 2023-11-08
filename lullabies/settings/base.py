@@ -1,12 +1,11 @@
 from .env import env
+import json
 
 SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = env("IS_DEVELOPMENT", cast=bool, default=True)
 
-ALLOWED_HOSTS = [
-    env("APP_HOST", default="localhost"),
-]
+ALLOWED_HOSTS = env("APP_HOSTS", cast=json.loads, default='["localhost"]')
 
 ROOT_URLCONF = "lullabies.urls"
 
@@ -24,5 +23,8 @@ MIDDLEWARE = [
 
 WSGI_APPLICATION = "lullabies.wsgi.application"
 
-
-CORS_ALLOW_ALL_ORIGINS = True
+cors_origins = env("CORS_ORIGINS", cast=json.loads, default=None)
+if cors_origins:
+    CORS_ALLOWED_ORIGINS = cors_origins
+else:
+    CORS_ALLOW_ALL_ORIGINS = True
