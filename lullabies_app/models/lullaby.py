@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
 
 from artists.models import Artist
 from media.models import MediaSource
@@ -44,6 +45,22 @@ class Lullaby(AutoTransliterationMixin, models.Model):
         default=0,
         editable=False,
     )
+
+    def save(self, *args, **kwargs):
+        default_language = settings.MODELTRANSLATION_DEFAULT_LANGUAGE
+        field_name = f"lyrics_{default_language}"
+        original_lyrics = getattr(self, field_name).split("\n")
+        lyrics = []
+        for i, line in enumerate(original_lyrics):
+            if line.isspace():
+                i -= 1
+                continue
+            if i % 2 == 0 and i != 0:
+                lyrics.append("\n")
+            lyrics.append(line.strip())
+        setattr(self, field_name, "\n".join(lyrics))
+
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("lullaby-detail", kwargs={"pk": self.pk})
