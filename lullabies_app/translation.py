@@ -12,4 +12,4 @@ class LullabyTranslation(TranslationOptions):
 @register(Region)
 class RegionTranslation(TranslationOptions):
     fields = ["name"]
-    required_languages = {"default": fields}
+    required_languages = {"default": ["name"]}
