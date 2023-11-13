@@ -2,12 +2,13 @@ from django.db import models
 from django.urls import reverse
 
 from artists.models import Artist
-
 from media.models import MediaSource
+from commons.transliteration import AutoTransliterationMixin
+
 from .region import Region
 
 
-class Lullaby(models.Model):
+class Lullaby(AutoTransliterationMixin, models.Model):
     class Meta:
         verbose_name_plural = "lullabies"
         constraints = [
