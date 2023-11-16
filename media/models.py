@@ -10,7 +10,7 @@ class MediaSourceManager(models.Manager):
                 format=models.ExpressionWrapper(
                     models.Case(
                         models.When(
-                            ~models.Q(cover__exact="", audio__exact=""),
+                            ~models.Q(audio__exact=""),
                             then=models.Value("audio"),
                         ),
                         models.When(
@@ -37,20 +37,21 @@ class MediaSource(models.Model):
                 check=models.ExpressionWrapper(
                     models.Case(
                         models.When(
-                            ~models.Q(audio__exact=""), then=~models.Q(cover__exact="")
+                            models.Q(video__isnull=False),
+                            then=~models.Q(preview__exact=""),
                         ),
                         default=models.Value(True),
                     ),
                     output_field=models.BooleanField(),
                 ),
-                name="audio_has_cover",
-                violation_error_message="If you use audio as a source, you need to upload a cover.",
+                name="video_has_preview",
+                violation_error_message="If you use video as a source, you need to upload a preview.",
             ),
         ]
 
     video = models.URLField(blank=True, null=True)
     audio = models.FileField(blank=True, default="", upload_to="audio/")
-    cover = models.ImageField(blank=True, default="", upload_to="cover/")
+    preview = models.ImageField(blank=True, default="", upload_to="preview/")
     duration = models.DurationField(blank=True, null=True)
 
     objects = MediaSourceManager()
