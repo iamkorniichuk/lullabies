@@ -9,5 +9,5 @@ class LullabyAdmin(TranslationAdmin):
 
 
 @admin.register(Region)
-class RegionAdmin(admin.ModelAdmin):
+class RegionAdmin(TranslationAdmin):
     list_display = ["pk", "name"]
