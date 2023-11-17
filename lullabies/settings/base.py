@@ -2,9 +2,10 @@ from .env import env
 import json
 
 
-def json_loads_or_none(value):
+def get_json_env(name, default=None):
+    value = env(name, default=None)
     if value is None:
-        return None
+        return default
     return json.loads(value)
 
 
@@ -12,7 +13,7 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = env("IS_DEVELOPMENT", cast=bool, default=True)
 
-ALLOWED_HOSTS = env("APP_HOSTS", cast=json_loads_or_none, default=["localhost"])
+ALLOWED_HOSTS = get_json_env("APP_HOSTS", default=["localhost"])
 
 ROOT_URLCONF = "lullabies.urls"
 
@@ -30,7 +31,7 @@ MIDDLEWARE = [
 
 WSGI_APPLICATION = "lullabies.wsgi.application"
 
-cors_origins = env("CORS_ORIGINS", cast=json_loads_or_none)
+cors_origins = get_json_env("CORS_ORIGINS")
 if cors_origins:
     CORS_ALLOWED_ORIGINS = cors_origins
 else:
