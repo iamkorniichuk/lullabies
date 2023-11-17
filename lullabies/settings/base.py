@@ -3,10 +3,11 @@ import json
 
 
 def get_json_env(name, default=None):
-    value = env(name, default=None)
-    if value is None:
+    value = env(name)
+    try:
+        return json.loads(value)
+    except json.JSONDecodeError:
         return default
-    return json.loads(value)
 
 
 SECRET_KEY = env("SECRET_KEY")
