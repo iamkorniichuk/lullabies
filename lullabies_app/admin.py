@@ -5,7 +5,7 @@ from .models import Lullaby, Region
 
 @admin.register(Lullaby)
 class LullabyAdmin(TranslationAdmin):
-    list_display = ["pk", "name", "region", "source", "views"]
+    list_display = ["pk", "name", "region", "type", "source", "views"]
 
 
 @admin.register(Region)
