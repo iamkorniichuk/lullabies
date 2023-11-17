@@ -25,6 +25,6 @@ class StatisticView(APIView):
         data = Lullaby.objects.aggregate(
             lullabies=Count("pk"),
             regions=Count("region", distinct=True),
-            artists=Count("artists", distinct=True),
+            artists=Count("artist", distinct=True),
         )
         return Response(data)
