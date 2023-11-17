@@ -9,16 +9,14 @@ from commons.transliteration import AutoTransliterationMixin
 from .region import Region
 
 
+class LullabyTypeChoices(models.TextChoices):
+    NEW = "new", "new"
+    ARCHIVE = "archive", "archive"
+
+
 class Lullaby(AutoTransliterationMixin, models.Model):
     class Meta:
         verbose_name_plural = "lullabies"
-        constraints = [
-            models.CheckConstraint(
-                check=models.Q(region__isnull=True) ^ models.Q(artist__isnull=True),
-                name="only_region_or_artist_is_set",
-                violation_error_message="You need to specify only region or artist.",
-            ),
-        ]
 
     name = models.CharField(max_length=64)
     region = models.ForeignKey(
@@ -45,6 +43,7 @@ class Lullaby(AutoTransliterationMixin, models.Model):
         default=0,
         editable=False,
     )
+    type = models.CharField(choices=LullabyTypeChoices.choices)
 
     def save(self, *args, **kwargs):
         default_language = settings.MODELTRANSLATION_DEFAULT_LANGUAGE
