@@ -1,10 +1,11 @@
 from .env import env
+from environ import NoValue
 import json
 
 
 def get_json_env(name, default=None):
-    value = env(name, default=None)
-    if value is None:
+    value = env(name, default=NoValue())
+    if isinstance(value, NoValue):
         return default
     return json.loads(value)
 
@@ -31,8 +32,10 @@ MIDDLEWARE = [
 
 WSGI_APPLICATION = "lullabies.wsgi.application"
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 cors_origins = get_json_env("CORS_ORIGINS")
 if cors_origins:
     CORS_ALLOWED_ORIGINS = cors_origins
 else:
-    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ORIGIN_ALLOW_ALL = True
+    CORS_ALLOW_CREDENTIALS = False
