@@ -39,13 +39,13 @@ def register_transliteration(model, fields):
 
 class TransliterationSerializerMixin:
     def __init__(self, *args, **kwargs):
-        translit_fields = get_translit_fields(self.Meta.model.translit_fields)
         current_language = get_language()
-        for fields in translit_fields.values():
-            for name, lang in fields:
+        for field, translit_fields in get_translit_fields(
+            self.Meta.model.translit_fields
+        ).items():
+            for name, lang in translit_fields:
                 if lang == current_language:
-                    setattr(self, name, ReadOnlyField())
-                    self.Meta.fields.append(name)
+                    self.fields[f"{field}_translit"] = ReadOnlyField(source=name)
         super().__init__(*args, **kwargs)
 
 
