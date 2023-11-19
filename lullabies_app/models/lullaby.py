@@ -50,13 +50,14 @@ class Lullaby(AutoTransliterationMixin, models.Model):
         field_name = f"lyrics_{default_language}"
         original_lyrics = getattr(self, field_name).split("\n")
         lyrics = []
-        for i, line in enumerate(original_lyrics):
-            if line.isspace():
-                i -= 1
+        i = 0
+        for line in original_lyrics:
+            if line.isspace() or line == "":
                 continue
             if i % 2 == 0 and i != 0:
                 lyrics.append("\n")
             lyrics.append(line.strip())
+            i += 1
         setattr(self, field_name, "\n".join(lyrics))
 
         return super().save(*args, **kwargs)
