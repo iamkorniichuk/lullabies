@@ -4,10 +4,13 @@ import json
 
 
 def get_json_env(name, default=None):
-    value = env(name, default=NoValue())
-    if isinstance(value, NoValue):
+    try:
+        value = env(name, default=NoValue())
+        if isinstance(value, NoValue):
+            return default
+        return json.loads(env(name))
+    except json.JSONDecodeError:
         return default
-    return json.loads(value)
 
 
 SECRET_KEY = env("SECRET_KEY")
