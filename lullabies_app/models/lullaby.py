@@ -4,7 +4,7 @@ from django.conf import settings
 
 from artists.models import Artist
 from media.models import MediaSource
-from commons.transliteration import AutoTransliterationMixin
+from commons.transliteration import register_transliteration
 
 from .region import Region
 
@@ -14,7 +14,7 @@ class LullabyTypeChoices(models.TextChoices):
     ARCHIVE = "archive", "archive"
 
 
-class Lullaby(AutoTransliterationMixin, models.Model):
+class Lullaby(models.Model):
     class Meta:
         verbose_name_plural = "lullabies"
 
@@ -46,9 +46,14 @@ class Lullaby(AutoTransliterationMixin, models.Model):
     type = models.CharField(choices=LullabyTypeChoices.choices)
 
     def save(self, *args, **kwargs):
-        default_language = settings.MODELTRANSLATION_DEFAULT_LANGUAGE
-        field_name = f"lyrics_{default_language}"
-        original_lyrics = getattr(self, field_name).split("\n")
+        field_name = f"lyrics_{settings.MODELTRANSLATION_DEFAULT_LANGUAGE}"
+        lyrics = getattr(self, field_name)
+        setattr(self, field_name, self.format_lyrics(lyrics))
+
+        return super().save(*args, **kwargs)
+
+    def format_lyrics(self, lyrics):
+        original_lyrics = lyrics.split("\n")
         lyrics = []
         i = 0
         for line in original_lyrics:
@@ -58,12 +63,14 @@ class Lullaby(AutoTransliterationMixin, models.Model):
                 lyrics.append("\n")
             lyrics.append(line.strip())
             i += 1
-        setattr(self, field_name, "\n".join(lyrics))
 
-        return super().save(*args, **kwargs)
+        return "\n".join(lyrics)
 
     def get_absolute_url(self):
         return reverse("lullaby-detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f"Lullaby({self.name})"
+
+
+register_transliteration(Lullaby, ["name", "lyrics"])

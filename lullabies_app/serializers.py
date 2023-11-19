@@ -3,6 +3,8 @@ from rest_framework import serializers
 from artists.serializers import ArtistSerializer
 from media.serializers import MediaSourceSerializer
 
+from commons.transliteration import TransliterationSerializerMixin
+
 from .models import Lullaby, Region
 
 
@@ -12,7 +14,7 @@ class RegionSerializer(serializers.ModelSerializer):
         fields = ["pk", "name"]
 
 
-class LullabySerializer(serializers.ModelSerializer):
+class LullabySerializer(TransliterationSerializerMixin, serializers.ModelSerializer):
     class Meta:
         model = Lullaby
         fields = [

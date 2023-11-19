@@ -1,27 +1,60 @@
 from django.conf import settings
+from django.utils.translation import get_language
 
-from modeltranslation.translator import translator
 from transliterate import translit
 from transliterate.exceptions import LanguagePackNotFound
 
+from rest_framework.serializers import ReadOnlyField
 
-class AutoTransliterationMixin:
-    def save(self, *args, **kwargs):
-        default_language = settings.MODELTRANSLATION_DEFAULT_LANGUAGE
-        options = translator.get_options_for_model(type(self))
-        for name, fields in options.local_fields.items():
-            original_value = getattr(self, f"{name}_{default_language}")
-            if default_language != "en":
-                original_value = translit(
-                    original_value, default_language, reversed=True
-                )
-            for translation_field in fields:
-                language = translation_field.language
-                if default_language == language:
-                    continue
-                try:
-                    transliterated_text = translit(original_value, language)
-                    setattr(self, translation_field.name, transliterated_text)
-                except LanguagePackNotFound:
-                    setattr(self, translation_field.name, original_value)
-        return super().save(*args, **kwargs)
+
+def get_translit(value, lang):
+    DEFAULT_LANGUAGE = settings.MODELTRANSLATION_DEFAULT_LANGUAGE
+    if DEFAULT_LANGUAGE != "en":
+        value = translit(
+            value,
+            DEFAULT_LANGUAGE,
+            reversed=True,
+        )
+    try:
+        return translit(value, lang)
+    except LanguagePackNotFound:
+        return value
+
+
+def get_translit_property(field, lang):
+    return property(lambda self: get_translit(getattr(self, field), lang))
+
+
+def register_transliteration(model, fields):
+    model.translit_fields = fields
+    translit_fields = get_translit_fields(fields)
+    for field, translit_fields in translit_fields.items():
+        for name, lang in translit_fields:
+            setattr(
+                model,
+                name,
+                get_translit_property(field, lang),
+            )
+
+
+class TransliterationSerializerMixin:
+    def __init__(self, *args, **kwargs):
+        translit_fields = get_translit_fields(self.Meta.model.translit_fields)
+        current_language = get_language()
+        for fields in translit_fields.values():
+            for name, lang in fields:
+                if lang == current_language:
+                    setattr(self, name, ReadOnlyField())
+                    self.Meta.fields.append(name)
+        super().__init__(*args, **kwargs)
+
+
+def get_translit_fields(fields):
+    result = {}
+    for field in fields:
+        result[field] = []
+        for code, _ in settings.LANGUAGES:
+            if code == settings.MODELTRANSLATION_DEFAULT_LANGUAGE:
+                continue
+            result[field].append((f"{field}_translit_{code}", code))
+    return result
