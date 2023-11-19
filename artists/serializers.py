@@ -1,9 +1,11 @@
 from rest_framework import serializers
 
+from commons.transliteration import TransliterationSerializerMixin
+
 from .models import Artist
 
 
-class ArtistSerializer(serializers.ModelSerializer):
+class ArtistSerializer(TransliterationSerializerMixin, serializers.ModelSerializer):
     class Meta:
         model = Artist
         fields = ["id", "name", "sex"]
