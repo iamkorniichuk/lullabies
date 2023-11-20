@@ -4,6 +4,11 @@
 *.pyc
 __pycache__/
 
+# Translation
+locale/
+*.mo
+*.po
+
 # Backup files
 *.bak 
 

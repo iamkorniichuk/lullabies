@@ -9,7 +9,7 @@ USE_TZ = True
 gettext = lambda s: s
 
 LANGUAGES = [
-    ("uk", gettext("Ukraine")),
+    ("uk", gettext("Ukrainian")),
     ("en", gettext("English")),
 ]
 MODELTRANSLATION_DEFAULT_LANGUAGE = "uk"

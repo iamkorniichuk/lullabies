@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.conf.urls.i18n import i18n_patterns
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
@@ -17,7 +18,6 @@ router.register("contacts", ContactViewSet, basename="contact")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("admin/", admin.site.urls),
     path("statistic/", include("statistic.urls")),
     path("email/", include("emails.urls")),
     path(
@@ -25,4 +25,7 @@ urlpatterns = [
         schema_view.with_ui(),
         name="schema",
     ),
-]
+] + i18n_patterns(
+    path("admin/", admin.site.urls),
+    prefix_default_language=False,
+)
