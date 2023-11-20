@@ -10,8 +10,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from commons.schema import languages_param
 from media.models import MediaSource
 
-from .serializers import LullabySerializer
-from .models import Lullaby
+from .serializers import LullabySerializer, RegionSerializer
+from .models import Lullaby, Region
 from .filtersets import LullabyFilterSet
 
 
@@ -57,3 +57,9 @@ class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
             return queryset
         sources = MediaSource.objects.filter(format=value).values_list("pk", flat=True)
         return Lullaby.objects.filter(source__in=sources).all()
+
+
+class RegionViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Region.objects.all()
+    serializer_class = RegionSerializer
+    lookup_field = "slug"
