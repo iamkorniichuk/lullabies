@@ -11,7 +11,7 @@ from .models import Lullaby, Region
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
-        fields = ["pk", "name"]
+        fields = ["pk", "name", "slug"]
 
 
 class LullabySerializer(TransliterationSerializerMixin, serializers.ModelSerializer):
