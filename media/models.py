@@ -69,5 +69,8 @@ class MediaSource(models.Model):
 
     objects = MediaSourceManager()
 
+    def __repr__(self):
+        return f"Media({self.pk})"
+
     def __str__(self):
-        return f"MediaSource({self.pk})"
+        return f"Media({self.pk})"

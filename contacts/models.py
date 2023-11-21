@@ -10,5 +10,8 @@ class Contact(models.Model):
     name = models.CharField(max_length=64, verbose_name=_("name"))
     value = models.CharField(max_length=312, verbose_name=_("value"))
 
-    def __str__(self):
+    def __repr__(self):
         return f"Contact({self.name})"
+
+    def __str__(self):
+        return self.name

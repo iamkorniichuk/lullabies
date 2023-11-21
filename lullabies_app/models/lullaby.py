@@ -73,8 +73,11 @@ class Lullaby(models.Model):
     def get_absolute_url(self):
         return reverse("lullaby-detail", kwargs={"pk": self.pk})
 
-    def __str__(self):
+    def __repr__(self):
         return f"Lullaby({self.name})"
+
+    def __str__(self):
+        return self.name
 
 
 register_transliteration(Lullaby, ["name", "lyrics"])
