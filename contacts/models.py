@@ -7,7 +7,7 @@ class Contact(models.Model):
         verbose_name = _("contact")
         verbose_name_plural = _("contacts")
 
-    name = models.CharField(max_length=64, verbose_name=_("name"))
+    name = models.SlugField(max_length=64, verbose_name=_("name"))
     value = models.CharField(max_length=312, verbose_name=_("value"))
 
     def __repr__(self):
