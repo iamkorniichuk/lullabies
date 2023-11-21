@@ -55,14 +55,16 @@ class Lullaby(models.Model):
     def format_lyrics(self, lyrics):
         original_lyrics = lyrics.split("\n")
         lyrics = []
-        i = 0
+        is_previous_line_space = False
         for line in original_lyrics:
-            if line.isspace() or line == "":
-                continue
-            if i % 2 == 0 and i != 0:
+            is_line_space = line.isspace() or line == ""
+            if is_line_space:
+                if is_previous_line_space:
+                    continue
                 lyrics.append("\n")
-            lyrics.append(line.strip())
-            i += 1
+            else:
+                lyrics.append(line.strip())
+            is_previous_line_space = is_line_space
 
         return "\n".join(lyrics)
 
