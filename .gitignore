@@ -3,6 +3,7 @@
 *.pot
 *.pyc
 __pycache__/
+static/
 
 # Translation
 locale/

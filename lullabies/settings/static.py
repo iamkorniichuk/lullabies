@@ -1,2 +1,2 @@
-STATICFILES_STORAGE = "commons.storages.StaticFileStorage"
-STATICFILES_FOLDER = "static"
+STATIC_URL = "/static/"
+STATIC_ROOT = "static"
