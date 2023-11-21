@@ -1,0 +1,25 @@
+{% extends "admin/base_site.html" %}
+ 
+{% load i18n %}
+ 
+{% load languages %}
+ 
+{% block userlinks %}
+    {% get_current_language as CURRENT_LANGUAGE %}
+    {% get_available_languages as LANGUAGES %}
+    {% for code, lang in LANGUAGES %}
+        <a href="{{ request|switch_lang:code }}">
+            {{ lang }}
+        </a>
+    {% endfor %}
+    {% if user.is_active and user.is_staff %}
+        {% url 'django-admindocs-docroot' as docsroot %}
+        {% if docsroot %}
+            <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
+        {% endif %}
+    {% endif %}
+    {% if user.has_usable_password %}
+        <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+    {% endif %}
+    <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+{% endblock %}

@@ -9,14 +9,14 @@ CONTRIB_APPS = [
 
 CREATED_APPS = [
     "commons",
+    "artists",
+    "contacts",
+    "documents",
+    "emails",
     "lullabies_app",
     "media",
     "partners",
-    "emails",
-    "contacts",
-    "artists",
     "statistic",
-    "documents",
 ]
 
 IMPORTED_APPS = [

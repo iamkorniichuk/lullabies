@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class MediaSourceManager(models.Manager):
@@ -27,6 +28,8 @@ class MediaSourceManager(models.Manager):
 
 class MediaSource(models.Model):
     class Meta:
+        verbose_name = _("media")
+        verbose_name_plural = _("media")
         constraints = [
             models.CheckConstraint(
                 check=models.Q(video__isnull=True) ^ models.Q(audio__exact=""),
@@ -49,10 +52,20 @@ class MediaSource(models.Model):
             ),
         ]
 
-    video = models.URLField(blank=True, null=True)
-    audio = models.FileField(blank=True, default="", upload_to="audio/")
-    preview = models.ImageField(blank=True, default="", upload_to="preview/")
-    duration = models.DurationField(blank=True, null=True)
+    video = models.URLField(blank=True, null=True, verbose_name=_("video"))
+    audio = models.FileField(
+        blank=True,
+        default="",
+        upload_to="audio/",
+        verbose_name=_("audio"),
+    )
+    preview = models.ImageField(
+        blank=True,
+        default="",
+        upload_to="preview/",
+        verbose_name=_("preview"),
+    )
+    duration = models.DurationField(blank=True, null=True, verbose_name=_("duration"))
 
     objects = MediaSourceManager()
 

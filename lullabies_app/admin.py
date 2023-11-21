@@ -10,4 +10,7 @@ class LullabyAdmin(TranslationAdmin):
 
 @admin.register(Region)
 class RegionAdmin(TranslationAdmin):
-    list_display = ["pk", "name"]
+    list_display = ["pk", "name", "slug"]
+    prepopulated_fields = {
+        "slug": ["name"],
+    }
