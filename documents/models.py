@@ -7,7 +7,7 @@ class Document(models.Model):
         verbose_name = _("document")
         verbose_name_plural = _("documents")
 
-    name = models.CharField(max_length=48, verbose_name=_("name"))
+    name = models.SlugField(max_length=64, verbose_name=_("name"))
     file = models.FileField(upload_to="documents", verbose_name=_("file"))
 
     def __repr__(self):
