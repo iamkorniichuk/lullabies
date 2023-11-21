@@ -4,4 +4,6 @@ from storages.backends.s3boto3 import S3Boto3Storage
 
 class MediaFileStorage(S3Boto3Storage):
     location = settings.MEDIAFILES_FOLDER
+    default_acl = "private"
     file_overwrite = False
+    custom_domain = False
