@@ -8,6 +8,8 @@ from .models import Lullaby, Region
 @admin.register(Lullaby)
 class LullabyAdmin(TranslationAdmin):
     list_display = ["pk", "name", "region", "get_type", "source", "views"]
+    search_fields = ["name", "lyrics"]
+    list_filter = ["region", "type"]
 
     def get_type(self, obj):
         return obj.get_type_display()
