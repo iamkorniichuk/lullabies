@@ -23,5 +23,8 @@ class Region(models.Model):
             self.slug = slugify(unidecode(self.name))
         return super().save(*args, **kwargs)
 
-    def __str__(self):
+    def __repr__(self):
         return f"Region({self.name})"
+
+    def __str__(self):
+        return self.name

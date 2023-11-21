@@ -34,7 +34,7 @@ source_format = openapi.Parameter(
 )
 class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [OrderingFilter, DjangoFilterBackend]
-    queryset = Lullaby.objects.all()
+    queryset = Lullaby.objects.filter(is_visible=True).all()
     filterset_class = LullabyFilterSet
     serializer_class = LullabySerializer
 

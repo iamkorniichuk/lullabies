@@ -22,8 +22,11 @@ class Artist(models.Model):
         verbose_name=_("sex"),
     )
 
-    def __str__(self):
+    def __repr__(self):
         return f"Artist({self.name})"
+
+    def __str__(self):
+        return self.name
 
 
 register_transliteration(Artist, ["name"])

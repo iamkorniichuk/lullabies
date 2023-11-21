@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 
+from modeltranslation.translator import translator
 from artists.models import Artist
 from media.models import MediaSource
 from commons.transliteration import register_transliteration
@@ -12,8 +13,8 @@ from .region import Region
 
 
 class LullabyTypeChoices(models.TextChoices):
-    NEW = "new", "new"
-    ARCHIVE = "archive", "archive"
+    NEW = "new", _("new")
+    ARCHIVE = "archive", _("archive")
 
 
 class Lullaby(models.Model):
@@ -46,15 +47,21 @@ class Lullaby(models.Model):
         default=0, editable=False, verbose_name=_("views")
     )
     type = models.CharField(choices=LullabyTypeChoices.choices, verbose_name=_("type"))
+    is_visible = models.BooleanField(default=True, verbose_name=_("is visible"))
 
     def save(self, *args, **kwargs):
-        field_name = f"lyrics_{settings.MODELTRANSLATION_DEFAULT_LANGUAGE}"
-        lyrics = getattr(self, field_name)
-        setattr(self, field_name, self.format_lyrics(lyrics))
+        options = translator.get_options_for_model(type(self))
+        for field in options.local_fields["lyrics"]:
+            field_name = f"lyrics_{field.language}"
+            lyrics = getattr(self, field_name)
+            setattr(self, field_name, self.format_lyrics(lyrics))
 
         return super().save(*args, **kwargs)
 
     def format_lyrics(self, lyrics):
+        if lyrics.isspace() or lyrics == "":
+            return ""
+
         original_lyrics = lyrics.split("\n")
         lyrics = []
         is_previous_line_space = False
@@ -73,8 +80,11 @@ class Lullaby(models.Model):
     def get_absolute_url(self):
         return reverse("lullaby-detail", kwargs={"pk": self.pk})
 
-    def __str__(self):
+    def __repr__(self):
         return f"Lullaby({self.name})"
+
+    def __str__(self):
+        return self.name
 
 
 register_transliteration(Lullaby, ["name", "lyrics"])
