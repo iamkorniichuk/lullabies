@@ -7,6 +7,7 @@ from rest_framework.routers import DefaultRouter
 
 from partners.viewsets import PartnerViewSet
 from contacts.viewsets import ContactViewSet
+from documents.viewsets import DocumentViewSet
 from lullabies_app.viewsets import LullabyViewSet, RegionViewSet
 
 from .schema import schema_view
@@ -17,6 +18,7 @@ router.register("lullabies", LullabyViewSet, basename="lullaby")
 router.register("regions", RegionViewSet, basename="region")
 router.register("partners", PartnerViewSet, basename="partner")
 router.register("contacts", ContactViewSet, basename="contact")
+router.register("documents", DocumentViewSet, basename="document")
 
 urlpatterns = (
     [
