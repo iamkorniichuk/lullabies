@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
+from unidecode import unidecode
+
 
 class Region(models.Model):
     class Meta:
@@ -17,7 +19,8 @@ class Region(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        if len(self.slug) < 1:
+            self.slug = slugify(unidecode(self.name))
         return super().save(*args, **kwargs)
 
     def __str__(self):
