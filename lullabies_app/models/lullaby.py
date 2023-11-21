@@ -46,6 +46,7 @@ class Lullaby(models.Model):
         default=0, editable=False, verbose_name=_("views")
     )
     type = models.CharField(choices=LullabyTypeChoices.choices, verbose_name=_("type"))
+    is_visible = models.BooleanField(default=True, verbose_name=_("is visible"))
 
     def save(self, *args, **kwargs):
         field_name = f"lyrics_{settings.MODELTRANSLATION_DEFAULT_LANGUAGE}"
