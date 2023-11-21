@@ -12,8 +12,8 @@ from .region import Region
 
 
 class LullabyTypeChoices(models.TextChoices):
-    NEW = "new", "new"
-    ARCHIVE = "archive", "archive"
+    NEW = "new", _("new")
+    ARCHIVE = "archive", _("archive")
 
 
 class Lullaby(models.Model):
