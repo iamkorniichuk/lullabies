@@ -1,7 +1,5 @@
 from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
-from django.conf import settings
-from django.conf.urls.static import static
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
@@ -20,19 +18,15 @@ router.register("partners", PartnerViewSet, basename="partner")
 router.register("contacts", ContactViewSet, basename="contact")
 router.register("documents", DocumentViewSet, basename="document")
 
-urlpatterns = (
-    [
-        path("", include(router.urls)),
-        path("statistic/", include("statistic.urls")),
-        path("email/", include("emails.urls")),
-        path(
-            "schema/",
-            schema_view.with_ui(),
-            name="schema",
-        ),
-    ]
-    + i18n_patterns(
-        path("admin/", admin.site.urls),
-    )
-    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns = [
+    path("", include(router.urls)),
+    path("statistic/", include("statistic.urls")),
+    path("email/", include("emails.urls")),
+    path(
+        "schema/",
+        schema_view.with_ui(),
+        name="schema",
+    ),
+] + i18n_patterns(
+    path("admin/", admin.site.urls),
 )
