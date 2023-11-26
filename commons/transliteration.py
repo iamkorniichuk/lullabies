@@ -6,9 +6,10 @@ from transliterate.exceptions import LanguagePackNotFound
 
 from rest_framework.serializers import ReadOnlyField
 
+DEFAULT_LANGUAGE = settings.MODELTRANSLATION_DEFAULT_LANGUAGE
+
 
 def get_translit(value, lang):
-    DEFAULT_LANGUAGE = settings.MODELTRANSLATION_DEFAULT_LANGUAGE
     if DEFAULT_LANGUAGE != "en":
         value = translit(
             value,
@@ -33,7 +34,7 @@ def register_transliteration(model, fields):
             setattr(
                 model,
                 name,
-                get_translit_property(field, lang),
+                get_translit_property(f"{field}_{DEFAULT_LANGUAGE}", lang),
             )
 
 
