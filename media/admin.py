@@ -7,12 +7,22 @@ from .models import MediaSource
 
 @admin.register(MediaSource)
 class MediaSource(admin.ModelAdmin):
-    list_display = ["pk", "url_audio", "img_preview", "url_video", "format", "duration"]
+    list_display = [
+        "pk",
+        "url_audio",
+        "img_preview",
+        "url_video",
+        "format",
+        "duration",
+        "created",
+        "modified",
+    ]
+    readonly_fields = ["pk", "created", "modified"]
     fieldsets = [
         [
             None,
             {
-                "fields": ["audio", "preview", "video"],
+                "fields": ["pk", "audio", "preview", "video", "created", "modified"],
             },
         ]
     ]
