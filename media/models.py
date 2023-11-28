@@ -66,6 +66,8 @@ class MediaSource(models.Model):
         verbose_name=_("preview"),
     )
     duration = models.DurationField(blank=True, null=True, verbose_name=_("duration"))
+    created = models.DateTimeField(editable=False, auto_now_add=True)
+    modified = models.DateTimeField(editable=False, auto_now=True)
 
     objects = MediaSourceManager()
 
@@ -73,4 +75,8 @@ class MediaSource(models.Model):
         return f"Media({self.pk})"
 
     def __str__(self):
-        return f"Media({self.pk})"
+        try:
+            format = self.format
+        except AttributeError:
+            format = self.__class__.objects.get(pk=self.pk).format
+        return f"Media({self.pk}, {format})"
