@@ -75,4 +75,8 @@ class MediaSource(models.Model):
         return f"Media({self.pk})"
 
     def __str__(self):
-        return f"Media({self.pk}, {self.format})"
+        try:
+            format = self.format
+        except AttributeError:
+            format = self.__class__.objects.get(pk=self.pk).format
+        return f"Media({self.pk}, {format})"
