@@ -1,6 +1,5 @@
 from django.db import models
 from django.urls import reverse
-from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 
@@ -48,6 +47,8 @@ class Lullaby(models.Model):
     )
     type = models.CharField(choices=LullabyTypeChoices.choices, verbose_name=_("type"))
     is_visible = models.BooleanField(default=True, verbose_name=_("is visible"))
+    created = models.DateTimeField(editable=False, auto_now_add=True)
+    modified = models.DateTimeField(editable=False, auto_now=True)
 
     def save(self, *args, **kwargs):
         options = translator.get_options_for_model(type(self))

@@ -7,7 +7,22 @@ from .models import Lullaby, Region
 
 @admin.register(Lullaby)
 class LullabyAdmin(TranslationAdmin):
-    list_display = ["pk", "name", "region", "get_type", "source", "views", "is_visible"]
+    list_display = [
+        "pk",
+        "name",
+        "region",
+        "get_type",
+        "source",
+        "views",
+        "created",
+        "modified",
+        "is_visible",
+    ]
+    readonly_fields = [
+        "pk",
+        "created",
+        "modified",
+    ]
     search_fields = ["name", "lyrics"]
     list_filter = ["region", "type", "is_visible"]
 
