@@ -42,3 +42,5 @@ if cors_origins:
 else:
     CORS_ORIGIN_ALLOW_ALL = True
     CORS_ALLOW_CREDENTIALS = False
+
+ADMIN_TWO_FACTOR_NAME = "kolyskova"

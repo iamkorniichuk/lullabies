@@ -31,6 +31,7 @@ IMPORTED_APPS = [
 
 INSTALLED_APPS = (
     [
+        "admin_two_factor.apps.TwoStepVerificationConfig",
         "modeltranslation",
     ]
     + CONTRIB_APPS

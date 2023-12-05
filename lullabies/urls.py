@@ -29,4 +29,8 @@ urlpatterns = [
     ),
 ] + i18n_patterns(
     path("admin/", admin.site.urls),
+    path(
+        "two_factor/",
+        include(("admin_two_factor.urls", "admin_two_factor"), namespace="two_factor"),
+    ),
 )
