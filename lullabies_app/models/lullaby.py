@@ -45,7 +45,9 @@ class Lullaby(models.Model):
     views = models.PositiveIntegerField(
         default=0, editable=False, verbose_name=_("views")
     )
-    type = models.CharField(choices=LullabyTypeChoices.choices, verbose_name=_("type"))
+    type = models.CharField(
+        choices=LullabyTypeChoices.choices, verbose_name=_("type"), max_length=16
+    )
     is_visible = models.BooleanField(default=True, verbose_name=_("is visible"))
     created = models.DateTimeField(editable=False, auto_now_add=True)
     modified = models.DateTimeField(editable=False, auto_now=True)
