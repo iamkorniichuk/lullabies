@@ -3,14 +3,13 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 from commons.schema import languages_param
 
 from .serializers import LullabySerializer, RegionSerializer
 from .models import Lullaby, Region
-from .filtersets import LullabyFilterSet
+from .filtersets import LullabyFilterSet, UseBoostOrderingFilter
 
 
 @method_decorator(
@@ -22,7 +21,7 @@ from .filtersets import LullabyFilterSet
     decorator=swagger_auto_schema(manual_parameters=[languages_param]),
 )
 class LullabyViewSet(viewsets.ReadOnlyModelViewSet):
-    filter_backends = [OrderingFilter, DjangoFilterBackend]
+    filter_backends = [UseBoostOrderingFilter, DjangoFilterBackend]
     queryset = Lullaby.objects.filter(is_visible=True).all()
     filterset_class = LullabyFilterSet
     serializer_class = LullabySerializer

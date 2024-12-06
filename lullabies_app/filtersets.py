@@ -1,4 +1,5 @@
-from django_filters import rest_framework as filters
+from rest_framework.filters import OrderingFilter
+import django_filters as filters
 
 from commons.filters import RenamableFilterSetMetaclass
 from media.models import MediaSource
@@ -17,6 +18,27 @@ def filter_is_empty(queryset, field_name, value):
         return queryset
     method = "exclude" if value else "filter"
     return getattr(queryset, method)(**{field_name + "__gt": ""})
+
+
+class UseBoostOrderingFilter(OrderingFilter):
+    def get_ordering(self, request, queryset, view):
+        ordering = super().get_ordering(request, queryset, view)
+        if ordering:
+            for i in range(len(ordering)):
+                field = ordering[i]
+                is_desc = field.startswith("-")
+                if is_desc:
+                    field = field[1:]
+
+                if field == "views":
+                    name = "is_boosted"
+                    if is_desc:
+                        name = "-" + name
+
+                    ordering = list(ordering)
+                    ordering.insert(i, name)
+
+        return ordering
 
 
 class LullabyFilterSet(filters.FilterSet, metaclass=RenamableFilterSetMetaclass):

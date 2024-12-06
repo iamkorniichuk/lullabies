@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
 
 from modeltranslation.translator import translator
@@ -9,6 +10,28 @@ from media.models import MediaSource
 from commons.transliteration import register_transliteration
 
 from .region import Region
+
+
+class LullabyManager(models.Manager):
+    def get_queryset(self):
+        from .boost import Boost
+
+        queryset = (
+            super()
+            .get_queryset()
+            .annotate(
+                is_boosted=models.ExpressionWrapper(
+                    models.Exists(
+                        Boost.objects.filter(
+                            lullabies=models.OuterRef("pk"), date=timezone.now().date()
+                        )
+                    ),
+                    output_field=models.BooleanField(),
+                )
+            )
+        )
+
+        return queryset
 
 
 class LullabyTypeChoices(models.TextChoices):
@@ -51,6 +74,8 @@ class Lullaby(models.Model):
     is_visible = models.BooleanField(default=True, verbose_name=_("is visible"))
     created = models.DateTimeField(editable=False, auto_now_add=True)
     modified = models.DateTimeField(editable=False, auto_now=True)
+
+    objects = LullabyManager()
 
     def save(self, *args, **kwargs):
         options = translator.get_options_for_model(type(self))
