@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from modeltranslation.admin import TranslationAdmin
 
-from .models import Lullaby, Region
+from .models import Lullaby, Region, Boost
 
 
 @admin.register(Lullaby)
@@ -38,3 +38,11 @@ class RegionAdmin(TranslationAdmin):
     prepopulated_fields = {
         "slug": ["name"],
     }
+
+
+@admin.register(Boost)
+class BoostAdmin(admin.ModelAdmin):
+    list_display = ["pk", "get_lullabies", "date"]
+
+    def get_lullabies(self, obj):
+        return ", ".join([lullaby.name for lullaby in obj.lullabies.all()])
